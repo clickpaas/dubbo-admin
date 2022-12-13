@@ -367,7 +367,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
@@ -381,6 +381,54 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
+                </configuration>
+            </plugin>-->
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.41-cp-SNAPSHOT</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <imagePullPolicy>always</imagePullPolicy>
+                    <images>
+                        <image>
+                            <name>registry.bizsaas.net/arch/dubbo-admin:0.3.0</name>
+                            <build>
+                                <contextDir>${project.basedir}/docker</contextDir>
+                                <buildx>
+                                    <platforms>
+                                        <platform>linux/amd64</platform>
+                                        <platform>linux/arm64</platform>
+                                    </platforms>
+                                    <dockerStateDir>~/.docker</dockerStateDir>
+                                </buildx>
+                                <assembly>
+                                    <mode>dir</mode>
+                                    <name>/</name>
+                                    <inline>
+                                        <id>docker-copy-files</id>
+                                        <fileSets>
+                                            <fileSet>
+                                                <directory>target</directory>
+                                                <includes>
+                                                    <include>*.jar</include>
+                                                    <include>*.war</include>
+                                                </includes>
+                                                <outputDirectory>./</outputDirectory>
+                                            </fileSet>
+                                            <fileSet>
+                                                <directory>docker</directory>
+                                                <includes>
+                                                    <include>*</include>
+                                                </includes>
+                                                <outputDirectory>./</outputDirectory>
+                                            </fileSet>
+                                        </fileSets>
+                                    </inline>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
         </plugins>
