@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.List;
 
 /**
@@ -35,7 +38,7 @@ public class ProviderOfflineHandler {
     private ProviderService providerService;
 
 
-    public String podEventTriggerDestroy(String node, String podName, String username, String password) {
+    public String podEventTriggerDestroy(String node, String podName, Long timestamp, String username, String password) {
 
         // 简单认证 offline specify provider node service
         if (!StringUtils.equals(USER, username) || !StringUtils.equals(PASSWORD, password)) {
@@ -43,20 +46,53 @@ public class ProviderOfflineHandler {
             return FAIL_RESULT;
         }
 
-        // 根据 IP地址 查询服务提供者列表
-        List<Provider> providers = providerService.findByAddress(node);
-        logger.info("offline provider auth success, node: " + node + ", podName: " + podName + ", username: " + username + ", password: " + password + ", providers: " + providers.size());
+        try {
 
-        // 不为空，删除注册中心中对应的提供者服务信息
-        if (!CollectionUtils.isEmpty(providers)) {
-            // 遍历删除 提供者
-            providers.forEach(provider -> {
-                // 兼容处理低版本dubbo 注册的url
-                URL url = compatibleLowVersion(provider.toUrl());
-                registry.unregister(url);
-                logger.info("oomkill event remove success, provider url: " + url.toFullString());
-            });
+            // timestamp is used for network delay verification
+            long current = System.currentTimeMillis();
+            // delay second
+            long second = Math.abs((current - timestamp) / 1000);
+            if (second > 3) {
+
+                logger.warn("network delay, current: " + current + ", send-time: " + timestamp + ", second: " + second);
+
+                // check node
+                String[] arr = node.split(":");
+                if (arr.length != 2) {
+                    logger.warn("node: " + node + ", invalid param.");
+                    return FAIL_RESULT;
+                }
+
+                // ip、port
+                String ip = arr[0];
+                int port = StringUtils.isEmpty(arr[1]) ? 20880 : Integer.parseInt(arr[1]);
+
+                // check connect
+                if (isHostConnectable(ip, port)) {
+                    return SUCCESS_RESULT;
+                }
+
+            }
+
+            // 根据 IP地址 查询服务提供者列表
+            List<Provider> providers = providerService.findByAddress(node);
+            logger.info("offline provider auth success, node: " + node + ", podName: " + podName + ", username: " + username + ", password: " + password + ", network delay second: " + second + ", providers: " + providers.size());
+
+            // 不为空，删除注册中心中对应的提供者服务信息
+            if (!CollectionUtils.isEmpty(providers)) {
+                // 遍历删除 提供者
+                providers.forEach(provider -> {
+                    // 兼容处理低版本dubbo 注册的url
+                    URL url = compatibleLowVersion(provider.toUrl());
+                    registry.unregister(url);
+                    logger.info("oomkill event remove success, provider url: " + url.toFullString());
+                });
+            }
+
+        } catch (Exception e) {
+            logger.error("provider offline error: ", e);
         }
+
         return SUCCESS_RESULT;
     }
 
@@ -79,5 +115,29 @@ public class ProviderOfflineHandler {
             return url.removeParameter("dispatcher");
         }
         return url;
+    }
+
+
+    /**
+     * 端口连接检测
+     *
+     * @param host 主机
+     * @param port 端口
+     * @return boolean
+     */
+    public boolean isHostConnectable(String host, int port) {
+        Socket socket = new Socket();
+        try {
+            socket.connect(new InetSocketAddress(host, port));
+        } catch (IOException e) {
+            return false;
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
     }
 }
