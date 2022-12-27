@@ -18,7 +18,7 @@ public class OfflineController {
 
 
     @RequestMapping(value = "/provider", method = RequestMethod.GET)
-    public String provider(@RequestParam String node, @RequestParam String podName, @RequestParam Long timestamp, @RequestParam String username, @RequestParam String password, @PathVariable String env) {
+    public Integer provider(@RequestParam String node, @RequestParam String podName, @RequestParam Long timestamp, @RequestParam String username, @RequestParam String password, @PathVariable String env) {
         return providerOfflineHandler.podEventTriggerDestroy(node, podName, timestamp, username, password);
     }
 

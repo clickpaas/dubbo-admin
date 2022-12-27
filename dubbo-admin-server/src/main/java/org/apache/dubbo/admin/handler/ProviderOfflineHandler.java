@@ -1,5 +1,6 @@
 package org.apache.dubbo.admin.handler;
 
+import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.admin.model.domain.Provider;
 import org.apache.dubbo.admin.service.ProviderService;
@@ -28,8 +29,8 @@ public class ProviderOfflineHandler {
     private static final String USER = "admin";
     private static final String PASSWORD = "dubbo.clickpaas.tech";
 
-    public static final String FAIL_RESULT = "Auth Fail";
-    public static final String SUCCESS_RESULT = "Offline Success";
+    public static final Integer FAIL = 500;
+    public static final Integer SUCCESS = 200;
 
     @Autowired
     private Registry registry;
@@ -38,12 +39,12 @@ public class ProviderOfflineHandler {
     private ProviderService providerService;
 
 
-    public String podEventTriggerDestroy(String node, String podName, Long timestamp, String username, String password) {
+    public Integer podEventTriggerDestroy(String node, String podName, Long timestamp, String username, String password) {
 
         // 简单认证 offline specify provider node service
         if (!StringUtils.equals(USER, username) || !StringUtils.equals(PASSWORD, password)) {
             logger.warn("offline provider auth fail, node: " + node + ", username: " + username + ", password: " + password);
-            return FAIL_RESULT;
+            return FAIL;
         }
 
         try {
@@ -60,7 +61,7 @@ public class ProviderOfflineHandler {
                 String[] arr = node.split(":");
                 if (arr.length != 2) {
                     logger.warn("node: " + node + ", invalid param.");
-                    return FAIL_RESULT;
+                    return FAIL;
                 }
 
                 // ip、port
@@ -69,7 +70,7 @@ public class ProviderOfflineHandler {
 
                 // check connect
                 if (isHostConnectable(ip, port)) {
-                    return SUCCESS_RESULT;
+                    return SUCCESS;
                 }
 
             }
@@ -93,7 +94,7 @@ public class ProviderOfflineHandler {
             logger.error("provider offline error: ", e);
         }
 
-        return SUCCESS_RESULT;
+        return SUCCESS;
     }
 
 
