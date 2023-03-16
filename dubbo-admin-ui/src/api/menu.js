@@ -17,6 +17,7 @@
 
 const Menu = [
   { title: 'serviceSearch', path: '/service', icon: 'search' },
+  { title: 'serverSearch', path: '/serverSearch', icon: 'search' },
   {
     title: 'serviceGovernance',
     icon: 'edit',
@@ -31,8 +32,8 @@ const Menu = [
     ]
   },
   { title: 'serviceTest', path: '/test', icon: 'code' },
-  { title: 'apiDocs', path: '/apiDocs', icon: 'code' },
-  { title: 'serviceMock', path: '/mock', icon: 'build', badge: 'feature' },
+  // { title: 'apiDocs', path: '/apiDocs', icon: 'code' },
+  // { title: 'serviceMock', path: '/mock', icon: 'build', badge: 'feature' },
   {
     title: 'serviceMetrics',
     path: 'metrics',

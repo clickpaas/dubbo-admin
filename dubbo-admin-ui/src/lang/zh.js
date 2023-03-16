@@ -16,7 +16,7 @@
  */
 export default {
   service: '服务',
-  serviceSearch: '服务查询',
+  serviceSearch: '接口查询',
   serviceGovernance: '服务治理',
   serviceMetrics: '服务统计',
   serviceRelation: '服务关系',
@@ -199,5 +199,11 @@ export default {
       none: '无'
     }
   },
-  authFailed: '权限验证失败'
+  authFailed: '权限验证失败',
+  // optimize
+  serverSearch: '服务查询',
+  tag: 'Tag',
+  application: '应用',
+  exportServices: '提供服务数量',
+  status: '状态'
 }

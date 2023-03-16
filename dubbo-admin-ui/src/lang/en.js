@@ -199,5 +199,11 @@ export default {
       none: 'none'
     }
   },
-  authFailed: 'Authorized failed,please login.'
+  authFailed: 'Authorized failed,please login.',
+  // optimize
+  serverSearch: 'Server Search',
+  tag: 'Tag',
+  application: 'Application',
+  exportServices: 'Export Services',
+  status: 'Status'
 }
