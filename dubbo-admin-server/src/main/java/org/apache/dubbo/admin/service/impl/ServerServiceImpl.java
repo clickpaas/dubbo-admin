@@ -1,7 +1,9 @@
 package org.apache.dubbo.admin.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.admin.common.util.Constants;
+import org.apache.dubbo.admin.handler.ServerStatusHandler;
 import org.apache.dubbo.admin.model.domain.Override;
 import org.apache.dubbo.admin.model.domain.Provider;
 import org.apache.dubbo.admin.model.dto.ServerStatusDTO;
@@ -29,11 +31,11 @@ import static org.apache.dubbo.admin.common.util.Constants.*;
 @Component
 public class ServerServiceImpl extends AbstractService implements ServerService {
 
-    // 存储服务禁用启用状态
-    public static final String DUBBO_CONFIG_STATUS = "/dubbo/config/status";
-
     @Autowired
     ProviderService providerService;
+
+    @Autowired
+    ServerStatusHandler serverStatusHandler;
 
 
     @java.lang.Override
@@ -96,14 +98,15 @@ public class ServerServiceImpl extends AbstractService implements ServerService 
                         .collect(Collectors.toList());
 
         // 设置状态
+        Set<String> statusConfig = serverStatusHandler.fetchConfig();
         result.forEach(server -> {
-            // config 为 null，则没有被禁用
-            String config = dynamicConfiguration.getConfig(DUBBO_CONFIG_STATUS, server.uniqueKey());
-            server.setStatus(config == null);
+            // 包含即为禁用, true = 开启； false = 禁用
+            server.setStatus(!statusConfig.contains(server.uniqueKey()));
         });
 
         return new PageImpl<>(result, pageable, total);
     }
+
 
     @java.lang.Override
     public boolean updateStatus(ServerStatusDTO serverStatus) {
@@ -136,16 +139,20 @@ public class ServerServiceImpl extends AbstractService implements ServerService 
                 }
 
             } catch (Exception e) {
-                logger.error("");
+                logger.error("provider:" + JSON.toJSONString(provider) +
+                        (serverStatus.getStatus() ? ", disabled" : ", enabled") + "error:", e);
             }
         });
 
         // 标识状态
+        Set<String> config = serverStatusHandler.fetchConfig();
         if (serverStatus.getStatus()) {
-            dynamicConfiguration.setConfig(DUBBO_CONFIG_STATUS, serverStatus.uniqueKey(), DISABLED_KEY);
+            config.add(serverStatus.uniqueKey());
         } else {
-            dynamicConfiguration.deleteConfig(DUBBO_CONFIG_STATUS, serverStatus.uniqueKey());
+            config.remove(serverStatus.uniqueKey());
         }
+        // 更新配置
+        serverStatusHandler.updateConfig(config);
 
         return true;
     }
