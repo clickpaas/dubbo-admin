@@ -51,6 +51,7 @@ public class SyncUtils {
         p.setService(url.getServiceKey());
         p.setAddress(url.getAddress());
         p.setApplication(url.getParameter(Constants.APPLICATION_KEY));
+        p.setTag(url.getParameter(Constants.APPLICATION_TAG));
         p.setUrl(url.toIdentityString());
         p.setParameters(url.toParameterString());
 

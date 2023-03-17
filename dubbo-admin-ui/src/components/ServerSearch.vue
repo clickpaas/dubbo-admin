@@ -71,6 +71,7 @@
                     small
                     class="tiny"
                     outline
+                    :disabled="statusDisable"
                     @click='operationStatus(props.item)'
                   >
                     {{ $t(props.item.status ? 'disabled' : 'enabled') }}
@@ -104,6 +105,7 @@ export default {
     // 内容表格部分
     headers: [],
     timerID: null,
+    statusDisable: false,
     resultPage: {},
     pagination: {
       page: 1,
@@ -119,7 +121,20 @@ export default {
   },
   methods: {
     operationStatus: function (item) {
-      console.log(item)
+
+      this.statusDisable = true
+
+      setTimeout(() => {
+        this.statusDisable = false   //点击一次时隔两秒后才能再次点击
+      }, 2000)
+
+      this.$axios.put('/optimize/server/status', item)
+        .then(response => {
+          if (response.status === 200) {
+            this.submit()
+            this.$notify.success((item.status ? 'Disabled' : 'Enabled') + ' success')
+          }
+        })
     },
     setHeaders: function () {
       this.headers = [

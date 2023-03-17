@@ -16,6 +16,7 @@
  */
 package org.apache.dubbo.admin.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.admin.common.exception.ParamValidationException;
 import org.apache.dubbo.admin.common.util.Constants;
 import org.apache.dubbo.admin.common.util.Pair;
@@ -228,6 +229,17 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
         return SyncUtils.url2ProviderList(findProviderUrlByAddress(providerAddress));
     }
 
+    @Override
+    public List<Provider> findByTag(String tag) {
+
+        Map<String, String> filter = new HashMap<String, String>();
+        filter.put(Constants.CATEGORY_KEY, Constants.PROVIDERS_CATEGORY);
+        filter.put(Constants.APPLICATION_TAG, tag);
+        // 根据tag查询url
+        Map<String, URL> stringURLMap = SyncUtils.filterFromCategory(getRegistryCache(), filter);
+        return SyncUtils.url2ProviderList(stringURLMap);
+    }
+
     public Map<String, URL> findProviderUrlByAddress(String address) {
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(Constants.CATEGORY_KEY, Constants.PROVIDERS_CATEGORY);
@@ -284,6 +296,19 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
     @Override
     public List<Provider> findByApplication(String application) {
         return SyncUtils.url2ProviderList(findProviderUrlByApplication(application));
+    }
+
+    @Override
+    public List<Provider> findByApplicationAndTagAndAddress(String application, String tag, String address) {
+
+        Map<String, String> filter = new HashMap<String, String>();
+        filter.put(Constants.CATEGORY_KEY, Constants.PROVIDERS_CATEGORY);
+        filter.put(Constants.APPLICATION, application);
+        filter.put(Constants.APPLICATION_TAG, StringUtils.isEmpty(tag) ? "" : tag);
+        filter.put(SyncUtils.ADDRESS_FILTER_KEY, address);
+
+        Map<String, URL> stringURLMap = SyncUtils.filterFromCategory(getRegistryCache(), filter);
+        return SyncUtils.url2ProviderList(stringURLMap);
     }
 
     @Override

@@ -50,6 +50,8 @@ public class Provider extends Entity {
 
     private String application; /* application name */
 
+    private String tag;
+
     private String username;      /* operator */
 
     private Date expired;   /* time to expire */
@@ -139,6 +141,14 @@ public class Provider extends Entity {
         this.enabled = enabled;
     }
 
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public Date getExpired() {
         return expired;

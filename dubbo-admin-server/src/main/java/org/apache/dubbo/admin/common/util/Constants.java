@@ -80,6 +80,13 @@ public class Constants {
     public static final Set<String> CONFIGS = new HashSet<>();
     public static final String COLON = ":";
 
+    public static final String APPLICATION_TAG = "application.tag";
+    public static final String SERVER_QUERY_BY_APPLICATION = "application";
+    public static final String SERVER_QUERY_BY_IP = "ip";
+    public static final String SERVER_QUERY_BY_TAG = "tag";
+    public static final String DISABLED_KEY = "disabled";
+
+
     static {
         CONFIGS.add(WEIGHT);
         CONFIGS.add(BALANCING);

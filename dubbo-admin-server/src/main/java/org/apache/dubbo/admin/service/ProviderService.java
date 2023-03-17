@@ -86,6 +86,8 @@ public interface ProviderService {
      */
     List<Provider> findByAddress(String providerAddress);
 
+    List<Provider> findByTag(String tag);
+
     List<String> findServicesByAddress(String providerAddress);
 
     Set<String> findApplications();
@@ -97,6 +99,8 @@ public interface ProviderService {
      * @return list of provider object
      */
     List<Provider> findByApplication(String application);
+
+    List<Provider> findByApplicationAndTagAndAddress(String application, String tag, String address);
 
     List<String> findServicesByApplication(String application);
 
