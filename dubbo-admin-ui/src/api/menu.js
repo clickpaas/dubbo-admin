@@ -17,14 +17,14 @@
 
 const Menu = [
   { title: 'serviceSearch', path: '/service', icon: 'search' },
-  { title: 'serverSearch', path: '/serverSearch', icon: 'search' },
+  { title: 'serverSearch', path: '/serverSearch', icon: 'search' , badge: 'new' },
   {
     title: 'serviceGovernance',
     icon: 'edit',
     group: 'governance',
     items: [
       { title: 'routingRule', path: '/governance/routingRule' },
-      { title: 'tagRule', path: '/governance/tagRule', badge: 'new' },
+      { title: 'tagRule', path: '/governance/tagRule' },
       { title: 'accessControl', path: '/governance/access' },
       { title: 'dynamicConfig', path: '/governance/config' },
       { title: 'weightAdjust', path: '/governance/weight' },
