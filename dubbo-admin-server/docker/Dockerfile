@@ -1,4 +1,4 @@
-FROM registry.bizsaas.net/java:openjdk8-alpine-bash-cn-dockerize
+FROM registry.bizsaas.net/tongweb:7.0.4.7-vmoptions
 
 MAINTAINER cal
 
