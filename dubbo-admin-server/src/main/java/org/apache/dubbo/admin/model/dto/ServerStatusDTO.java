@@ -1,10 +1,11 @@
 package org.apache.dubbo.admin.model.dto;
 
-import org.apache.dubbo.admin.common.util.Constants;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
 import static org.apache.dubbo.admin.common.util.Constants.COLON;
+import static org.apache.dubbo.admin.common.util.Constants.SP_COLON;
 
 /**
  * 服务状态DTO
@@ -53,12 +54,38 @@ public class ServerStatusDTO {
 
 
     /**
+     * 将 唯一KEY 转换成 DTO
+     *
+     * @param key 唯一KEY
+     * @return ServerStatusDTO
+     */
+    public static ServerStatusDTO uniqueWarpDateKeyToDTO(String key) {
+
+        ServerStatusDTO dto = new ServerStatusDTO();
+        if (StringUtils.isNotEmpty(key) && key.contains(SP_COLON)){
+            String[] s = key.split(SP_COLON);
+            String[] ars = s[0].split(COLON);
+            dto.setApplication(ars[0]);
+            dto.setIp(ars[1]);
+            dto.setPort(Integer.valueOf(ars[2]));
+            dto.setTag(ars[3]);
+        }
+
+        return dto;
+    }
+
+
+    /**
      * 不使用hash值，是因为不可读。
      *
      * @return String
      */
     public String uniqueKey() {
         return getApplication() + COLON + getIp() + COLON + getPort() + COLON + getTag();
+    }
+
+    public String getAddress(){
+        return getIp() + COLON + getPort();
     }
 
 

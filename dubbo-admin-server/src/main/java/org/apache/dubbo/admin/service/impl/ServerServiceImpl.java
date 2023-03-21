@@ -125,6 +125,8 @@ public class ServerServiceImpl extends AbstractService implements ServerService 
 
                 // 兼容2.6.x 版本
                 Override override = new Override();
+                override.setApplication(serverStatus.getApplication());
+                override.setTag(serverStatus.getTag());
                 override.setAddress(provider.getAddress());
                 override.setService(provider.getService());
                 override.setEnabled(true);

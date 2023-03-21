@@ -17,6 +17,7 @@
 package org.apache.dubbo.admin.common.util;
 
 import org.apache.dubbo.admin.model.domain.Consumer;
+import org.apache.dubbo.admin.model.domain.Override;
 import org.apache.dubbo.admin.model.domain.Provider;
 import org.apache.dubbo.common.URL;
 
@@ -101,6 +102,36 @@ public class SyncUtils {
         return list;
     }
 
+
+    public static Override url2Override(Pair<String, URL> pair){
+        if (pair == null) {
+            return null;
+        }
+
+        URL url = pair.getValue();
+
+        if (null == url)
+            return null;
+
+        Override override = new Override();
+        override.setApplication(url.getParameter(Constants.APPLICATION_KEY));
+        override.setTag(url.getParameter(Constants.SERVER_QUERY_BY_TAG));
+        override.setAddress(url.getAddress());
+        override.setService(url.getServiceKey());
+        override.setEnabled(url.getParameter(Constants.ENABLED_KEY, true));
+        override.setParams(Constants.DISABLED_KEY + "=true");
+
+        return override;
+    }
+
+    public static List<Override> url2OverrideList(Map<String, URL> os){
+        List<Override> list = new ArrayList<Override>();
+        if (os == null) return list;
+        for (Map.Entry<String, URL> entry : os.entrySet()) {
+            list.add(url2Override(new Pair<>(entry.getKey(), entry.getValue())));
+        }
+        return list;
+    }
 
     // Map<category, Map<servicename, Map<Long, URL>>>
     public static <SM extends Map<String, Map<String, URL>>> Map<String, URL> filterFromCategory(Map<String, SM> urls, Map<String, String> filter) {

@@ -16,9 +16,12 @@
  */
 package org.apache.dubbo.admin.service;
 
+import org.apache.dubbo.admin.model.domain.Override;
 import org.apache.dubbo.admin.model.dto.BalancingDTO;
 import org.apache.dubbo.admin.model.dto.DynamicConfigDTO;
 import org.apache.dubbo.admin.model.dto.WeightDTO;
+
+import java.util.List;
 
 public interface OverrideService {
 
@@ -49,5 +52,11 @@ public interface OverrideService {
     void deleteBalance(String id);
 
     BalancingDTO findBalance(String id);
+
+
+    List<Override> findAll();
+
+
+    List<Override> findByApplicationAndAddressAndTag(String application, String address, String tag);
 
 }

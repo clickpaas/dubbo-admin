@@ -1,6 +1,5 @@
 package org.apache.dubbo.admin.handler;
 
-import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.admin.model.domain.Provider;
 import org.apache.dubbo.admin.service.ProviderService;

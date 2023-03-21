@@ -17,7 +17,7 @@
 
 const Menu = [
   { title: 'serviceSearch', path: '/service', icon: 'search' },
-  { title: 'serverSearch', path: '/serverSearch', icon: 'search' , badge: 'new' },
+  { title: 'serverSearch', path: '/serverSearch', icon: 'search', badge: 'new' },
   {
     title: 'serviceGovernance',
     icon: 'edit',

@@ -85,6 +85,7 @@ public class Constants {
     public static final String SERVER_QUERY_BY_IP = "ip";
     public static final String SERVER_QUERY_BY_TAG = "tag";
     public static final String DISABLED_KEY = "disabled";
+    public static final String SP_COLON = "@@@";
 
 
     static {

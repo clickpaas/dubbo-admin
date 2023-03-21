@@ -17,10 +17,7 @@
 package org.apache.dubbo.admin.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.admin.common.util.Constants;
-import org.apache.dubbo.admin.common.util.ConvertUtil;
-import org.apache.dubbo.admin.common.util.OverrideUtils;
-import org.apache.dubbo.admin.common.util.YamlParser;
+import org.apache.dubbo.admin.common.util.*;
 import org.apache.dubbo.admin.model.adapter.DynamicConfigDTO2OverrideDTOAdapter;
 import org.apache.dubbo.admin.model.adapter.LoadBalance2OverrideAdapter;
 import org.apache.dubbo.admin.model.adapter.WeightToOverrideAdapter;
@@ -33,9 +30,11 @@ import org.apache.dubbo.admin.model.dto.WeightDTO;
 import org.apache.dubbo.admin.model.store.OverrideConfig;
 import org.apache.dubbo.admin.model.store.OverrideDTO;
 import org.apache.dubbo.admin.service.OverrideService;
+import org.apache.dubbo.common.URL;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -447,6 +446,31 @@ public class OverrideServiceImpl extends AbstractService implements OverrideServ
             }
         }
         return null;
+    }
+
+    @java.lang.Override
+    public List<Override> findAll() {
+
+        // 查询条件
+        Map<String, String> filter = new HashMap<String, String>();
+        filter.put(Constants.CATEGORY_KEY, Constants.CONFIGURATORS_CATEGORY);
+        Map<String, URL> urlMap = SyncUtils.filterFromCategory(getRegistryCache(), filter);
+
+        return SyncUtils.url2OverrideList(urlMap);
+    }
+
+    @java.lang.Override
+    public List<Override> findByApplicationAndAddressAndTag(String application, String address, String tag) {
+
+        // 查询条件
+        Map<String, String> filter = new HashMap<String, String>();
+        filter.put(Constants.CATEGORY_KEY, Constants.CONFIGURATORS_CATEGORY);
+        filter.put(Constants.APPLICATION, application);
+        filter.put(Constants.SERVER_QUERY_BY_TAG, StringUtils.isEmpty(tag) ? "" : tag);
+        filter.put(SyncUtils.ADDRESS_FILTER_KEY, address);
+        Map<String, URL> urlMap = SyncUtils.filterFromCategory(getRegistryCache(), filter);
+
+        return SyncUtils.url2OverrideList(urlMap);
     }
 
     private OverrideDTO insertConfig(String config, OverrideConfig overrideConfig, String key, String scope, String configType) {
