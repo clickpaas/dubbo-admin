@@ -77,8 +77,16 @@ public class ServiceController {
                         .limit(pageable.getPageSize())
                         .collect(Collectors.toList());
 
-        final Page<ServiceDTO> page = new PageImpl<>(content, pageable, total);
-        return page;
+        return new PageImpl<>(content, pageable, total);
+    }
+
+
+    @RequestMapping(value = "/server/services", method = RequestMethod.GET)
+    public Set<ServiceDTO> searchService(@RequestParam String application,
+                                          @RequestParam String address,
+                                          @RequestParam String tag,
+                                          @PathVariable String env) {
+        return providerService.searchServices(application, address, tag);
     }
 
     @RequestMapping(value = "/service/{service}", method = RequestMethod.GET)

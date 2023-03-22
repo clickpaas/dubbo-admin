@@ -23,6 +23,7 @@ import TestMethod from '@/components/test/TestMethod'
 import RoutingRule from '@/components/governance/RoutingRule'
 import TagRule from '@/components/governance/TagRule'
 import ServerSearch from '@/components/ServerSearch'
+import ServerDetail from '@/components/ServerDetail'
 import AccessControl from '@/components/governance/AccessControl'
 import LoadBalance from '@/components/governance/LoadBalance'
 import WeightAdjust from '@/components/governance/WeightAdjust'
@@ -68,6 +69,14 @@ export default new Router({
           path: '/serverSearch',
           name: 'ServerSearch',
           component: ServerSearch,
+          meta: {
+            requireLogin: true
+          }
+        },
+        {
+          path: '/serverDetail',
+          name: 'ServerDetail',
+          component: ServerDetail,
           meta: {
             requireLogin: true
           }

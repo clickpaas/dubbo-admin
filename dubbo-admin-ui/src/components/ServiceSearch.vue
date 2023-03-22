@@ -81,6 +81,7 @@
                 <td>{{props.item.group}}</td>
                 <td>{{props.item.version}}</td>
                 <td>{{props.item.appName}}</td>
+                <td>{{props.item.tag}}</td>
                 <td class="text-xs-center px-0" nowrap>
                   <v-btn
                     class="tiny"
@@ -89,14 +90,14 @@
                   >
                    {{ $t('detail') }}
                   </v-btn>
-                  <v-btn
-                    small
-                    class="tiny"
-                    outline
-                    :href='toTestService(props.item)'
-                  >
-                    {{$t('test')}}
-                  </v-btn>
+<!--                  <v-btn-->
+<!--                    small-->
+<!--                    class="tiny"-->
+<!--                    outline-->
+<!--                    :href='toTestService(props.item)'-->
+<!--                  >-->
+<!--                    {{$t('test')}}-->
+<!--                  </v-btn>-->
                   <v-menu
                   >
                     <v-btn
@@ -241,6 +242,11 @@ export default {
         {
           text: this.$t('app'),
           value: 'application',
+          align: 'left'
+        },
+        {
+          text: this.$t('tag'),
+          value: 'tag',
           align: 'left'
         },
         {

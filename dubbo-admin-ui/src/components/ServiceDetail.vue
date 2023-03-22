@@ -54,8 +54,7 @@
               <template slot="items" slot-scope="props">
                 <td>{{getIp(props.item.address)}}</td>
                 <td>{{getPort(props.item.address)}}</td>
-                <td></td>
-                <td></td>
+                <td>{{props.item.tag}}</td>
                 <td>{{props.item.weight}}</td>
                 <td>
                   <v-tooltip top>
@@ -167,13 +166,17 @@
               value: 'port'
             },
             {
-              text: this.$t('timeout'),
-              value: 'timeout'
+              text: this.$t('tag'),
+              value: 'tag'
             },
-            {
-              text: this.$t('serialization'),
-              value: 'serial'
-            },
+            // {
+            //   text: this.$t('timeout'),
+            //   value: 'timeout'
+            // },
+            // {
+            //   text: this.$t('serialization'),
+            //   value: 'serial'
+            // },
             {
               text: this.$t('weight'),
               value: 'weight'

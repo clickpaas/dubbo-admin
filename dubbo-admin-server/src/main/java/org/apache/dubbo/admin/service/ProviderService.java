@@ -121,4 +121,8 @@ public interface ProviderService {
      */
     Set<ServiceDTO> getServiceDTOS(String pattern, String filter, String env);
 
+
+
+    Set<ServiceDTO> searchServices(String application, String address, String tag);
+
 }

@@ -2,6 +2,7 @@ package org.apache.dubbo.admin.controller.optimize;
 
 import org.apache.dubbo.admin.annotation.Authority;
 import org.apache.dubbo.admin.model.dto.ServerStatusDTO;
+import org.apache.dubbo.admin.model.dto.ServiceDTO;
 import org.apache.dubbo.admin.service.ServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,12 +37,5 @@ public class ServerController {
                                                Pageable pageable, @PathVariable String env) {
         return serverService.getServers(type, keyword, pageable);
     }
-
-
-    @RequestMapping(value = "/server/status", method = RequestMethod.PUT)
-    public boolean status(@RequestBody ServerStatusDTO dto, @PathVariable String env) {
-        return serverService.updateStatus(dto);
-    }
-
 
 }

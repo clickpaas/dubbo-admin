@@ -31,6 +31,7 @@ import org.apache.dubbo.common.URL;
 import org.apache.dubbo.metadata.report.identifier.MetadataIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,7 +105,7 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
     public Set<String> findServices() {
         Set<String> ret = new HashSet<>();
         ConcurrentMap<String, Map<String, URL>> providerUrls = getRegistryCache().get(Constants.PROVIDERS_CATEGORY);
-        if (providerUrls != null){
+        if (providerUrls != null) {
             ret.addAll(providerUrls.keySet());
         }
         return ret;
@@ -187,7 +188,7 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
         for (Map.Entry<String, URL> e2 : value.entrySet()) {
             URL u = e2.getValue();
             String app = u.getParameter(Constants.APPLICATION);
-            if (app != null){
+            if (app != null) {
                 ret.add(app);
             }
         }
@@ -234,7 +235,9 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
 
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(Constants.CATEGORY_KEY, Constants.PROVIDERS_CATEGORY);
-        filter.put(Constants.APPLICATION_TAG, tag);
+        if (!StringUtils.isEmpty(tag)) {
+            filter.put(Constants.APPLICATION_TAG, tag);
+        }
         // 根据tag查询url
         Map<String, URL> stringURLMap = SyncUtils.filterFromCategory(getRegistryCache(), filter);
         return SyncUtils.url2ProviderList(stringURLMap);
@@ -275,7 +278,7 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
     public Set<String> findApplications() {
         Set<String> ret = new HashSet<>();
         ConcurrentMap<String, Map<String, URL>> providerUrls = getRegistryCache().get(Constants.PROVIDERS_CATEGORY);
-        if (providerUrls == null){
+        if (providerUrls == null) {
             return ret;
         }
 
@@ -304,7 +307,9 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(Constants.CATEGORY_KEY, Constants.PROVIDERS_CATEGORY);
         filter.put(Constants.APPLICATION, application);
-        filter.put(Constants.APPLICATION_TAG, StringUtils.isEmpty(tag) ? "" : tag);
+        if (!StringUtils.isEmpty(tag)) {
+            filter.put(Constants.APPLICATION_TAG, tag);
+        }
         filter.put(SyncUtils.ADDRESS_FILTER_KEY, address);
 
         Map<String, URL> stringURLMap = SyncUtils.filterFromCategory(getRegistryCache(), filter);
@@ -342,7 +347,6 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
     }
 
 
-
     private Map<String, URL> findProviderUrlByApplication(String application) {
         Map<String, String> filter = new HashMap<>();
         filter.put(Constants.CATEGORY_KEY, Constants.PROVIDERS_CATEGORY);
@@ -378,7 +382,7 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
         List<String> ret = new ArrayList<String>();
 
         ConcurrentMap<String, Map<String, URL>> providerUrls = getRegistryCache().get(Constants.PROVIDERS_CATEGORY);
-        if (providerUrls == null || service == null || service.length() == 0){
+        if (providerUrls == null || service == null || service.length() == 0) {
             return ret;
         }
 
@@ -445,15 +449,14 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
                 candidates = findServices();
             } else if (Constants.APPLICATION.equals(pattern)) {
                 candidates = findApplications();
-            }
-            else if (Constants.IP.equals(pattern)) {
+            } else if (Constants.IP.equals(pattern)) {
                 candidates = findAddresses().stream().collect(Collectors.toSet());
             }
             // replace dot symbol and asterisk symbol to java-based regex pattern
             filter = filter.toLowerCase().replace(Constants.PUNCTUATION_POINT, Constants.PUNCTUATION_SEPARATOR_POINT);
             // filter start with [* 、? 、+] will triggering PatternSyntaxException
             if (filter.startsWith(Constants.ANY_VALUE)
-                || filter.startsWith(Constants.INTERROGATION_POINT) || filter.startsWith(Constants.PLUS_SIGNS)) {
+                    || filter.startsWith(Constants.INTERROGATION_POINT) || filter.startsWith(Constants.PLUS_SIGNS)) {
                 filter = Constants.PUNCTUATION_POINT + filter;
             }
             // search with no case insensitive
@@ -463,19 +466,28 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
                 if (matcher.matches() || matcher.lookingAt()) {
                     if (Constants.SERVICE.equals(pattern)) {
                         providers.addAll(findByService(candidate));
-                    }
-                    else if (Constants.IP.equals(pattern)) {
+                    } else if (Constants.IP.equals(pattern)) {
                         providers.addAll(findByAddress(candidate));
-                    }
-                    else {
+                    } else {
                         providers.addAll(findByApplication(candidate));
                     }
                 }
             }
         }
 
-        Set<ServiceDTO> result = convertProviders2DTO(providers);
-        return result;
+        return convertProviders2DTO(providers);
+    }
+
+    @Override
+    public Set<ServiceDTO> searchServices(String application, String address, String tag) {
+
+        // 查询对应提供者信息
+        List<Provider> providers = this.findByApplicationAndTagAndAddress(application, tag, address);
+        if (CollectionUtils.isEmpty(providers)) {
+            return Collections.emptySet();
+        }
+
+        return convertProviders2DTO(providers);
     }
 
     /**
@@ -497,6 +509,7 @@ public class ProviderServiceImpl extends AbstractService implements ProviderServ
             s.setService(interfaze);
             s.setGroup(group);
             s.setVersion(version);
+            s.setTag(provider.getTag());
             result.add(s);
         }
         return result;

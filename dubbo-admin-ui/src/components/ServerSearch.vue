@@ -68,6 +68,13 @@
                 <td>{{ props.item.status ? '开启' : '禁用' }}</td>
                 <td class="text-xs-center px-0" nowrap>
                   <v-btn
+                    class="tiny"
+                    color='success'
+                    :href='getHref(props.item)'
+                  >
+                    {{ $t('detail') }}
+                  </v-btn>
+                  <v-btn
                     small
                     class="tiny"
                     outline
@@ -194,6 +201,11 @@ export default {
         }
       }, 500)
     },
+    getHref: function (params) {
+      let query = 'application=' + params.application + '&ip=' + params.ip
+      + '&port=' + params.port + '&tag=' + params.tag;
+      return '#/serverDetail?' + query
+    },
     submit() {
       this.keyword = document.querySelector('#serverSearch').value.trim()
       const type = this.items[this.selected].value
@@ -253,5 +265,10 @@ export default {
 </script>
 
 <style scoped>
+.tiny {
+  min-width: 30px;
+  height: 20px;
+  font-size: 8px;
+}
 
 </style>

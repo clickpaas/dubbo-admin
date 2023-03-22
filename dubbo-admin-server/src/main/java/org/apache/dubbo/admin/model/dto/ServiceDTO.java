@@ -26,6 +26,7 @@ public class ServiceDTO implements Comparable<ServiceDTO>{
     private String appName;
     private String group;
     private String version;
+    private String tag;
 
     public String getService() {
         return service;
@@ -59,6 +60,14 @@ public class ServiceDTO implements Comparable<ServiceDTO>{
         this.version = version;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     @Override
     public int compareTo(ServiceDTO o) {
         int result = StringUtils.trimToEmpty(appName).compareTo(StringUtils.trimToEmpty(o.getAppName()));
@@ -69,6 +78,9 @@ public class ServiceDTO implements Comparable<ServiceDTO>{
             }
             if (result == 0) {
                 result = StringUtils.trimToEmpty(version).compareTo(StringUtils.trimToEmpty(o.getVersion()));
+            }
+            if (result == 0){
+                result = StringUtils.trimToEmpty(tag).compareTo(StringUtils.trimToEmpty(o.getTag()));
             }
         }
         return result;
