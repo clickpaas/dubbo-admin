@@ -205,5 +205,6 @@ export default {
   tag: 'Tag',
   application: '应用',
   exportServices: '提供服务数量',
-  status: '操作状态'
+  status: '操作状态',
+  instanceResult: '查询实例结果'
 }

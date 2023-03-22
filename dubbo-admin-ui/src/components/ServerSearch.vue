@@ -45,7 +45,7 @@
     <v-flex lg12>
       <v-card>
         <v-toolbar flat color="transparent" class="elevation-0">
-          <v-toolbar-title><span class="headline">{{ $t('searchResult') }}</span></v-toolbar-title>
+          <v-toolbar-title><span class="headline">{{ $t('instanceResult') }}</span></v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
 

@@ -33,6 +33,15 @@
               <td>{{ props.item.version }}</td>
               <td>{{ props.item.appName }}</td>
               <td>{{ props.item.tag }}</td>
+              <td class="text-xs-center px-0" nowrap>
+                <v-btn
+                  class="tiny"
+                  color='success'
+                  :href='getHref(props.item.service, props.item.appName, props.item.group, props.item.version)'
+                >
+                  {{ $t('detail') }}
+                </v-btn>
+              </td>
             </template>
           </v-data-table>
         </template>
@@ -68,7 +77,6 @@ export default {
     let address = query.ip + ':' + query.port;
     let tag = query.tag === 'null' ? '' : query.tag
     this.search(query.application, address, tag)
-    console.log(that.basic)
   },
   methods: {
     setHeaders: function () {
@@ -114,13 +122,21 @@ export default {
           tag
         }
       }).then(response => {
-        console.log('response')
-        console.log(response)
         this.providers = response.data
-
       })
 
-    }
+    },
+    getHref: function (service, app, group, version) {
+      let query = 'service=' + service + '&app=' + app
+      if (group !== null) {
+        query = query + '&group=' + group
+      }
+      if (version != null) {
+        query = query + '&version=' + version
+      }
+      return '#/serviceDetail?' + query
+    },
+
   },
   computed: {
     area() {
@@ -136,5 +152,11 @@ export default {
 </script>
 
 <style scoped>
+
+.tiny {
+  min-width: 30px;
+  height: 20px;
+  font-size: 8px;
+}
 
 </style>

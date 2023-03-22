@@ -24,6 +24,7 @@ import RoutingRule from '@/components/governance/RoutingRule'
 import TagRule from '@/components/governance/TagRule'
 import ServerSearch from '@/components/ServerSearch'
 import ServerDetail from '@/components/ServerDetail'
+import UrlDetail from '@/components/UrlDetail'
 import AccessControl from '@/components/governance/AccessControl'
 import LoadBalance from '@/components/governance/LoadBalance'
 import WeightAdjust from '@/components/governance/WeightAdjust'
@@ -77,6 +78,14 @@ export default new Router({
           path: '/serverDetail',
           name: 'ServerDetail',
           component: ServerDetail,
+          meta: {
+            requireLogin: true
+          }
+        },
+        {
+          path: '/urlDetail',
+          name: 'UrlDetail',
+          component: UrlDetail,
           meta: {
             requireLogin: true
           }

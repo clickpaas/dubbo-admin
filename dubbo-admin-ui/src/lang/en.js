@@ -205,5 +205,7 @@ export default {
   tag: 'Tag',
   application: 'Application',
   exportServices: 'Export Services',
-  status: 'Operational status'
+  status: 'Operational status',
+  instanceResult: 'Search Instance Result'
+
 }

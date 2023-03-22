@@ -16,34 +16,34 @@
   -->
 
 <template>
-  <v-container grid-list-xl fluid >
-    <v-layout row wrap >
+  <v-container grid-list-xl fluid>
+    <v-layout row wrap>
       <v-flex sm12>
-        <h3>{{$t('basicInfo')}}</h3>
+        <h3>{{ $t('basicInfo') }}</h3>
       </v-flex>
       <v-flex lg12>
         <v-data-table
           :items="basic"
           class="elevation-1"
           hide-actions
-          hide-headers >
+          hide-headers>
           <template slot="items" slot-scope="props">
-            <td>{{$t(props.item.name)}} </td>
-            <td>{{props.item.value}}</td>
+            <td>{{ $t(props.item.name) }}</td>
+            <td>{{ props.item.value }}</td>
           </template>
         </v-data-table>
       </v-flex>
       <v-flex sm12>
-        <h3>{{$t('serviceInfo')}}</h3>
+        <h3>{{ $t('serviceInfo') }}</h3>
       </v-flex>
-      <v-flex lg12 >
+      <v-flex lg12>
         <v-tabs
           class="elevation-1">
           <v-tab>
-            {{$t('providers')}}
+            {{ $t('providers') }}
           </v-tab>
           <v-tab>
-            {{$t('consumers')}}
+            {{ $t('consumers') }}
           </v-tab>
           <v-tab-item>
             <v-data-table
@@ -52,11 +52,18 @@
               :items="providerDetails"
             >
               <template slot="items" slot-scope="props">
-                <td>{{getIp(props.item.address)}}</td>
-                <td>{{getPort(props.item.address)}}</td>
-                <td>{{props.item.tag}}</td>
-                <td>{{props.item.weight}}</td>
+                <td>{{ getIp(props.item.address) }}</td>
+                <td>{{ getPort(props.item.address) }}</td>
+                <td>{{ props.item.tag }}</td>
+                <td>{{ props.item.weight }}</td>
                 <td>
+                  <v-btn
+                    class="tiny"
+                    color='success'
+                    :href='urlDetail(props.item, "provider")'
+                  >
+                    {{ $t('detail') }}
+                  </v-btn>
                   <v-tooltip top>
                     <v-btn
                       class="tiny"
@@ -66,31 +73,40 @@
                       @mouseout="setoutHint(props.item)"
                       @click="toCopyText(props.item.url)"
                     >
-                        {{$t(props.item.hint)}}
+                      {{ $t(props.item.hint) }}
                     </v-btn>
-                    <span>{{props.item.url}}</span>
+                    <span>{{ props.item.url }}</span>
                   </v-tooltip>
                 </td>
               </template>
             </v-data-table>
           </v-tab-item>
-          <v-tab-item >
+          <v-tab-item>
             <v-data-table
               class="elevation-1"
               :headers="detailHeaders.consumers"
               :items="consumerDetails"
             >
               <template slot="items" slot-scope="props">
-                <td>{{getIp(props.item.address)}}</td>
-                <td>{{getPort(props.item.address)}}</td>
-                <td>{{props.item.application}}</td>
+                <td>{{ getIp(props.item.address) }}</td>
+                <td>{{ getPort(props.item.address) }}</td>
+                <td>{{ props.item.application }}</td>
+                <td>
+                  <v-btn
+                    class="tiny"
+                    color='success'
+                    :href='urlDetail(props.item, "consumer")'
+                  >
+                    {{ $t('detail') }}
+                  </v-btn>
+                </td>
               </template>
             </v-data-table>
           </v-tab-item>
         </v-tabs>
       </v-flex>
       <v-flex sm12>
-        <h3>{{$t('metaData')}}</h3>
+        <h3>{{ $t('metaData') }}</h3>
       </v-flex>
       <v-flex lg12>
         <v-data-table
@@ -98,18 +114,18 @@
           :headers="metaHeaders"
           :items="methodMetaData">
           <template slot="items" slot-scope="props">
-            <td>{{props.item.name}}</td>
+            <td>{{ props.item.name }}</td>
             <td>
-              <v-chip v-for="(type, index) in props.item.parameterTypes" :key="type.id" label>{{type}}</v-chip>
+              <v-chip v-for="(type, index) in props.item.parameterTypes" :key="type.id" label>{{ type }}</v-chip>
             </td>
             <td>
-              <v-chip label>{{props.item.returnType}}</v-chip>
+              <v-chip label>{{ props.item.returnType }}</v-chip>
             </td>
           </template>
           <template slot="no-data">
             <v-alert :value="true" color="warning" icon="warning">
-              {{$t('noMetadataHint')}}
-              <a :href="$t('configAddress')" target="_blank">{{$t('here')}}</a>
+              {{ $t('noMetadataHint') }}
+              <a :href="$t('configAddress')" target="_blank">{{ $t('here') }}</a>
             </v-alert>
           </template>
         </v-data-table>
@@ -118,169 +134,186 @@
   </v-container>
 </template>
 <script>
-  export default {
-    data: () => ({
-      metaHeaders: [],
-      detailHeaders: {},
-      providerDetails: [],
-      consumerDetails: [],
-      methodMetaData: [],
-      basic: []
-    }),
-    methods: {
-      setmetaHeaders: function () {
-        this.metaHeaders = [
+export default {
+  data: () => ({
+    metaHeaders: [],
+    detailHeaders: {},
+    providerDetails: [],
+    consumerDetails: [],
+    methodMetaData: [],
+    basic: []
+  }),
+  methods: {
+    setmetaHeaders: function () {
+      this.metaHeaders = [
+        {
+          text: this.$t('methodName'),
+          value: 'method',
+          sortable: false
+        },
+        {
+          text: this.$t('parameterList'),
+          value: 'parameter',
+          sortable: false
+        },
+        {
+          text: this.$t('returnType'),
+          value: 'returnType',
+          sortable: false
+        }
+      ]
+    },
+    setHoverHint: function (item) {
+      this.$set(item, 'hint', 'copy')
+    },
+
+    setoutHint: function (item) {
+      this.$set(item, 'hint', 'url')
+    },
+    setdetailHeaders: function () {
+      this.detailHeaders = {
+        providers: [
           {
-            text: this.$t('methodName'),
-            value: 'method',
-            sortable: false
+            text: this.$t('ip'),
+            value: 'ip'
           },
           {
-            text: this.$t('parameterList'),
-            value: 'parameter',
-            sortable: false
+            text: this.$t('port'),
+            value: 'port'
           },
           {
-            text: this.$t('returnType'),
-            value: 'returnType',
-            sortable: false
+            text: this.$t('tag'),
+            value: 'tag'
+          },
+          // {
+          //   text: this.$t('timeout'),
+          //   value: 'timeout'
+          // },
+          // {
+          //   text: this.$t('serialization'),
+          //   value: 'serial'
+          // },
+          {
+            text: this.$t('weight'),
+            value: 'weight'
+          },
+          {
+            text: this.$t('operation'),
+            value: 'operate'
+          }
+
+        ],
+        consumers: [
+          {
+            text: this.$t('ip'),
+            value: 'ip'
+          },
+          {
+            text: this.$t('port'),
+            value: 'port'
+          },
+          {
+            text: this.$t('appName'),
+            value: 'appName'
           }
         ]
-      },
-      setHoverHint: function (item) {
-        this.$set(item, 'hint', 'copy')
-      },
-
-      setoutHint: function (item) {
-        this.$set(item, 'hint', 'url')
-      },
-      setdetailHeaders: function () {
-        this.detailHeaders = {
-          providers: [
-            {
-              text: this.$t('ip'),
-              value: 'ip'
-            },
-            {
-              text: this.$t('port'),
-              value: 'port'
-            },
-            {
-              text: this.$t('tag'),
-              value: 'tag'
-            },
-            // {
-            //   text: this.$t('timeout'),
-            //   value: 'timeout'
-            // },
-            // {
-            //   text: this.$t('serialization'),
-            //   value: 'serial'
-            // },
-            {
-              text: this.$t('weight'),
-              value: 'weight'
-            },
-            {
-              text: this.$t('operation'),
-              value: 'operate'
-            }
-
-          ],
-          consumers: [
-            {
-              text: this.$t('ip'),
-              value: 'ip'
-            },
-            {
-              text: this.$t('port'),
-              value: 'port'
-            },
-            {
-              text: this.$t('appName'),
-              value: 'appName'
-            }
-          ]
-        }
-      },
-      detail: function (service) {
-        this.$axios.get('/service/' + service)
-            .then(response => {
-              this.providerDetails = response.data.providers
-              for (let i = 0; i < this.providerDetails.length; i++) {
-                this.$set(this.providerDetails[i], 'hint', 'url')
-              }
-              this.consumerDetails = response.data.consumers
-              if (response.data.metadata !== null) {
-                this.methodMetaData = response.data.metadata.methods
-              }
-            })
-      },
-      getIp: function (address) {
-        return address.split(':')[0]
-      },
-      getPort: function (address) {
-        return address.split(':')[1]
-      },
-      toCopyText (text) {
-        this.$copyText(text).then(() => {
-          this.$notify.success(this.$t('copySuccessfully'))
-        }, () => {})
       }
     },
-    computed: {
-      area () {
-        return this.$i18n.locale
-      }
-    },
-    watch: {
-      area () {
-        this.setdetailHeaders()
-        this.setmetaHeaders()
-      }
-    },
-    mounted: function () {
-      this.setmetaHeaders()
-      this.setdetailHeaders()
-      let query = this.$route.query
-      let meta = {
-        'service': '',
-        'app': '',
-        'group': '',
-        'version': ''
-      }
-      var vm = this
-      Object.keys(query).forEach(function (key) {
-        if (key in meta) {
-          meta[key] = query[key]
-        }
-      })
-      let dataId = meta['service']
-      if (meta['group'] !== '') {
-        dataId = meta['group'] + '*' + dataId
-      }
-      if (meta['version'] !== '') {
-        dataId = dataId + ':' + meta['version']
-      }
-
-      if (dataId !== '') {
-        this.detail(dataId)
-        Object.keys(meta).forEach(function (key) {
-          let item = {}
-          item.value = meta[key]
-          item.name = key
-          vm.basic.push(item)
+    detail: function (service) {
+      this.$axios.get('/service/' + service)
+        .then(response => {
+          this.providerDetails = response.data.providers
+          for (let i = 0; i < this.providerDetails.length; i++) {
+            this.$set(this.providerDetails[i], 'hint', 'url')
+          }
+          this.consumerDetails = response.data.consumers
+          if (response.data.metadata !== null) {
+            this.methodMetaData = response.data.metadata.methods
+          }
         })
+    },
+    getIp: function (address) {
+      return address.split(':')[0]
+    },
+    getPort: function (address) {
+      return address.split(':')[1]
+    },
+    toCopyText(text) {
+      this.$copyText(text).then(() => {
+        this.$notify.success(this.$t('copySuccessfully'))
+      }, () => {
+      })
+    },
+
+    urlDetail: function (item, side) {
+
+      let lastQuery = this.$route.query;
+      let args = item.address.split(':');
+
+      let query = 'application=' + item.application + '&ip=' + args[0]
+      + '&port=' + (args.length > 1 ? args[1] : '')
+      + '&tag=' + item.tag
+      + '&service=' + lastQuery.service
+      + '&group='+lastQuery.group
+      + '&version=' + lastQuery.version
+      + '&side=' + side;
+
+      return '#/urlDetail?' + query
+    }
+  },
+  computed: {
+    area() {
+      return this.$i18n.locale
+    }
+  },
+  watch: {
+    area() {
+      this.setdetailHeaders()
+      this.setmetaHeaders()
+    }
+  },
+  mounted: function () {
+    this.setmetaHeaders()
+    this.setdetailHeaders()
+    let query = this.$route.query
+    let meta = {
+      'service': '',
+      'app': '',
+      'group': '',
+      'version': ''
+    }
+    var vm = this
+    Object.keys(query).forEach(function (key) {
+      if (key in meta) {
+        meta[key] = query[key]
       }
+    })
+    let dataId = meta['service']
+    if (meta['group'] !== '') {
+      dataId = meta['group'] + '*' + dataId
+    }
+    if (meta['version'] !== '') {
+      dataId = dataId + ':' + meta['version']
+    }
+
+    if (dataId !== '') {
+      this.detail(dataId)
+      Object.keys(meta).forEach(function (key) {
+        let item = {}
+        item.value = meta[key]
+        item.name = key
+        vm.basic.push(item)
+      })
     }
   }
+}
 </script>
 
 <style scoped>
-  .tiny {
-    min-width: 30px;
-    height: 20px;
-    font-size: 8px;
-  }
+.tiny {
+  min-width: 30px;
+  height: 20px;
+  font-size: 8px;
+}
 </style>
 
