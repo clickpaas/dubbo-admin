@@ -206,6 +206,7 @@ export default {
   application: 'Application',
   exportServices: 'Export Services',
   status: 'Operational status',
-  instanceResult: 'Search Instance Result'
+  instanceResult: 'Search Instance Result',
+  urlInfo: 'URL Info'
 
 }

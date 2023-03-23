@@ -206,5 +206,6 @@ export default {
   application: '应用',
   exportServices: '提供服务数量',
   status: '操作状态',
-  instanceResult: '查询实例结果'
+  instanceResult: '查询实例结果',
+  urlInfo: 'URL信息'
 }

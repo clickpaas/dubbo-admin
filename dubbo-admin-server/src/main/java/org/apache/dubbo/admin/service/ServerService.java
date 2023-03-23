@@ -1,7 +1,9 @@
 package org.apache.dubbo.admin.service;
 
+import org.apache.dubbo.admin.model.UrlDetailRequest;
 import org.apache.dubbo.admin.model.dto.ServerStatusDTO;
 import org.apache.dubbo.admin.model.dto.ServiceDTO;
+import org.apache.dubbo.admin.model.dto.UrlDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -29,5 +31,14 @@ public interface ServerService {
      * @return
      */
     boolean updateStatus(ServerStatusDTO serverStatus);
+
+
+    /**
+     * 查询 URL 信息
+     *
+     * @param request 查询请求参数
+     * @return UrlDTO
+     */
+    UrlDTO searchUrl(UrlDetailRequest request);
 
 }

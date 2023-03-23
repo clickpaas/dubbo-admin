@@ -3,10 +3,13 @@ package org.apache.dubbo.admin.service.impl;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.admin.common.util.Constants;
+import org.apache.dubbo.admin.common.util.SyncUtils;
 import org.apache.dubbo.admin.handler.ServerStatusHandler;
+import org.apache.dubbo.admin.model.UrlDetailRequest;
 import org.apache.dubbo.admin.model.domain.Override;
 import org.apache.dubbo.admin.model.domain.Provider;
 import org.apache.dubbo.admin.model.dto.ServerStatusDTO;
+import org.apache.dubbo.admin.model.dto.UrlDTO;
 import org.apache.dubbo.admin.service.ProviderService;
 import org.apache.dubbo.admin.service.ServerService;
 import org.apache.dubbo.common.URL;
@@ -159,6 +162,57 @@ public class ServerServiceImpl extends AbstractService implements ServerService 
         return true;
     }
 
+    @java.lang.Override
+    public UrlDTO searchUrl(UrlDetailRequest request) {
+        // URL信息
+        UrlDTO dto = new UrlDTO();
+        // 组装过滤条件
+        Map<String, String> filter = assembleFilter(request);
+        // 查询数据
+        Map<String, URL> urlMap = SyncUtils.filterFromCategory(getRegistryCache(), filter);
+        // 理论上查询结果只有一条记录
+        if (urlMap.size() == 1) {
+            urlMap.forEach((key,value) -> {
+                dto.setUrl(value.toFullString());
+                dto.setAddress(value.getAddress());
+                dto.setSide(request.getSide());
+                dto.setApplication(value.getParameter(APPLICATION));
+                dto.setParameters(value.getParameters());
+            });
+        }
+        return dto;
+    }
+
+
+    private Map<String, String> assembleFilter(UrlDetailRequest request) {
+        // 查询条件
+        Map<String, String> filter = new HashMap<String, String>();
+        // 应用名称
+        filter.put(Constants.APPLICATION, request.getApplication());
+        // 接口名称
+        filter.put(SyncUtils.SERVICE_FILTER_KEY, request.getService());
+        // tag
+        if (!StringUtils.isEmpty(request.getTag())) {
+            filter.put(Constants.APPLICATION_TAG, request.getTag());
+        }
+        // 分组
+        if (!StringUtils.isEmpty(request.getGroup())) {
+            filter.put(GROUP_KEY, request.getGroup());
+        }
+        // 版本不为空，拼接
+        if (!StringUtils.isEmpty(request.getVersion())) {
+            filter.put(SyncUtils.SERVICE_FILTER_KEY, request.getService() + COLON + request.getVersion());
+        }
+        // 消费者
+        if (CONSUMER_SIDE.equals(request.getSide())) {
+            filter.put(Constants.CATEGORY_KEY, CONSUMERS_CATEGORY);
+            filter.put(SyncUtils.ADDRESS_FILTER_KEY, request.getIp());
+        } else { // 提供者
+            filter.put(Constants.CATEGORY_KEY, PROVIDERS_CATEGORY);
+            filter.put(SyncUtils.ADDRESS_FILTER_KEY, request.getIp() + COLON + request.getPort());
+        }
+        return filter;
+    }
 
     /**
      * 组装分组键
