@@ -34,6 +34,9 @@ import static org.apache.dubbo.admin.common.util.Constants.*;
 @Component
 public class ServerServiceImpl extends AbstractService implements ServerService {
 
+    // dynamicadmin 兼容
+    public static final String DYN_SERVER_KEY = "com.bizcloud.architect.dynamicadmin.service.DynaBeanService";
+
     @Autowired
     ProviderService providerService;
 
@@ -172,7 +175,7 @@ public class ServerServiceImpl extends AbstractService implements ServerService 
         Map<String, URL> urlMap = SyncUtils.filterFromCategory(getRegistryCache(), filter);
         // 理论上查询结果只有一条记录
         if (urlMap.size() == 1) {
-            urlMap.forEach((key,value) -> {
+            urlMap.forEach((key, value) -> {
                 dto.setUrl(value.toFullString());
                 dto.setAddress(value.getAddress());
                 dto.setSide(request.getSide());
@@ -197,7 +200,12 @@ public class ServerServiceImpl extends AbstractService implements ServerService 
         }
         // 分组
         if (!StringUtils.isEmpty(request.getGroup())) {
-            filter.put(GROUP_KEY, request.getGroup());
+            if (DYN_SERVER_KEY.equals(request.getService())) {
+                // 修改 service
+                filter.put(SyncUtils.SERVICE_FILTER_KEY, request.getGroup() + PATH_SEPARATOR + request.getService());
+            } else {
+                filter.put(GROUP_KEY, request.getGroup());
+            }
         }
         // 版本不为空，拼接
         if (!StringUtils.isEmpty(request.getVersion())) {
