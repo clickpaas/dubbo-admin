@@ -55,7 +55,7 @@
 	<properties>
 		<revision>1.0.2</revision>
 		<main.basedir>${project.basedir}</main.basedir>
-		<dubbo-version>2.7.15</dubbo-version>
+		<dubbo-version>3.1.3-M1-SNAPSHOT</dubbo-version>
 		<springfox-swagger-version>2.10.0</springfox-swagger-version>
 		<jacoco-version>0.8.2</jacoco-version>
 		<apollo-version>1.8.0</apollo-version>
