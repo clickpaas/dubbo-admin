@@ -18,6 +18,8 @@
 package org.apache.dubbo.admin.common.util;
 
 import org.apache.dubbo.common.utils.PojoUtils;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -31,11 +33,15 @@ import java.util.Map;
 public class YamlParser {
 
     public static String dumpObject(Object object) {
-        return new Yaml(new SafeConstructor(), new CustomRepresenter()).dumpAsMap(object);
+        LoaderOptions loaderOptions = new LoaderOptions();
+        DumperOptions dumperOptions = new DumperOptions();
+        return new Yaml(new SafeConstructor(loaderOptions), new CustomRepresenter(dumperOptions)).dumpAsMap(object);
     }
 
     public static <T> T loadObject(String content, Class<T> type) {
-        Map<String, Object> map = new Yaml(new SafeConstructor(), new CustomRepresenter()).load(content);
+        LoaderOptions loaderOptions = new LoaderOptions();
+        DumperOptions dumperOptions = new DumperOptions();
+        Map<String, Object> map = new Yaml(new SafeConstructor(loaderOptions), new CustomRepresenter(dumperOptions)).load(content);
         try {
             return (T) PojoUtils.mapToPojo(map, type);
         } catch (Exception e) {
@@ -44,6 +50,10 @@ public class YamlParser {
     }
 
     public static class CustomRepresenter extends Representer {
+
+        public CustomRepresenter(DumperOptions options) {
+            super(options);
+        }
 
         protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
             if (propertyValue == null) {
