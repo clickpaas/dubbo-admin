@@ -392,7 +392,7 @@
                     <imagePullPolicy>always</imagePullPolicy>
                     <images>
                         <image>
-                            <name>registry.bizsaas.net/arch/dubbo-admin:clv-${revision}</name>
+                            <name>registry.bizsaas.net/arch/dubbo-admin:clv-1.0.2-beta</name>
                             <build>
                                 <contextDir>${project.basedir}/docker</contextDir>
                                 <buildx>

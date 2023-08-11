@@ -20,6 +20,7 @@ const path = require('path');
 module.exports = {
   outputDir: "target/dist",
   lintOnSave: "warning",
+  publicPath: './',
   devServer: {
     port: 8082,
     historyApiFallback: {
