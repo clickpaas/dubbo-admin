@@ -479,7 +479,7 @@ export default {
       if (this.modal.whiteList) {
         whiteList = this.modal.whiteList.split(',')
       }
-      this.$axios.post('/rules/access', {
+      this.$axios.post('./rules/access', {
         service: this.modal.service,
         serviceVersion: this.modal.serviceVersion,
         serviceGroup: this.modal.serviceGroup,

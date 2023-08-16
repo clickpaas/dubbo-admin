@@ -215,7 +215,7 @@ export default {
       const page = this.pagination.page - 1
       const size = this.pagination.rowsPerPage === -1 ? this.totalItems : this.pagination.rowsPerPage
       this.loadingServices = true
-      this.$axios.get('/optimize/servers', {
+      this.$axios.get('./optimize/servers', {
         params: {
           type,
           keyword,

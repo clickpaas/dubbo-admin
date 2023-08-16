@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     detail: function (params) {
-      this.$axios.post('/optimize/server/service/url', params)
+      this.$axios.post('./optimize/server/service/url', params)
         .then(response => {
 
           let that = this

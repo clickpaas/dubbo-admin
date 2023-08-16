@@ -115,7 +115,7 @@ export default {
       ]
     },
     search: function (application, address, tag) {
-      this.$axios.get('/server/services', {
+      this.$axios.get('./server/services', {
         params: {
           application,
           address,

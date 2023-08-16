@@ -76,7 +76,7 @@
         let userName = this.userName
         let password = this.password
         let vm = this
-        this.$axios.get('/user/login', {
+        this.$axios.get('./user/login', {
           params: {
             userName,
             password

@@ -446,7 +446,7 @@ export default {
             })
         }
       } else {
-        this.$axios.post('/rules/route/condition/', rule)
+        this.$axios.post('./rules/route/condition/', rule)
           .then(response => {
             if (response.status === 201) {
               if (vm.service) {
@@ -474,7 +474,7 @@ export default {
       const scope = item.scope == null ? '' : item.scope
       switch (icon) {
         case 'visibility':
-          this.$axios.get('/rules/route/condition/' + itemId)
+          this.$axios.get('./rules/route/condition/' + itemId)
             .then(response => {
               const conditionRoute = response.data
               this.serviceVersion = conditionRoute.serviceVersion
@@ -488,7 +488,7 @@ export default {
             })
           break
         case 'edit':
-          this.$axios.get('/rules/route/condition/' + itemId)
+          this.$axios.get('./rules/route/condition/' + itemId)
             .then(response => {
               const conditionRoute = response.data
               this.serviceVersion = conditionRoute.serviceVersion

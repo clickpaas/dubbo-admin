@@ -32,6 +32,7 @@ module.exports = {
     proxy: {
       '/': {
         target: 'http://localhost:8080/',
+        // target: 'http://dubbo.op2.clickpaas.tech/',
         changeOrigin: true,
         pathRewrite: {
           '^/': '/'

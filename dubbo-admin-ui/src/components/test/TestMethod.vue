@@ -95,7 +95,7 @@
           parameterTypes: this.method.parameterTypes,
           params: this.method.json
         }
-        this.$axios.post('/test', serviceTestDTO)
+        this.$axios.post('./test', serviceTestDTO)
           .then(response => {
             if (response && response.status === 200) {
               this.success = true

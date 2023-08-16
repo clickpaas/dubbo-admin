@@ -421,7 +421,7 @@
               })
           }
         } else {
-          this.$axios.post('/rules/override', override)
+          this.$axios.post('./rules/override', override)
             .then(response => {
               if (response.status === 201) {
                 if (this.service) {
@@ -443,7 +443,7 @@
         let itemId = item.id
         switch (icon) {
           case 'visibility':
-            this.$axios.get('/rules/override/' + itemId)
+            this.$axios.get('./rules/override/' + itemId)
               .then(response => {
                 let config = response.data
                 this.handleConfig(config, true)
@@ -451,7 +451,7 @@
               })
             break
           case 'edit':
-            this.$axios.get('/rules/override/' + itemId)
+            this.$axios.get('./rules/override/' + itemId)
               .then(response => {
                 let config = response.data
                 this.handleConfig(config, false)

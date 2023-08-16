@@ -273,7 +273,7 @@
               })
           }
         } else {
-          this.$axios.post('/rules/route/tag/', rule)
+          this.$axios.post('./rules/route/tag/', rule)
             .then(response => {
               if (response.status === 201) {
                 vm.search(vm.application, true)
@@ -291,7 +291,7 @@
         let itemId = item.application
         switch (icon) {
           case 'visibility':
-            this.$axios.get('/rules/route/tag/' + itemId)
+            this.$axios.get('./rules/route/tag/' + itemId)
               .then(response => {
                 let tagRoute = response.data
                 this.handleBalance(tagRoute, true)
@@ -301,7 +301,7 @@
           case 'edit':
             let id = {}
             id.id = itemId
-            this.$axios.get('/rules/route/tag/' + itemId)
+            this.$axios.get('./rules/route/tag/' + itemId)
               .then(response => {
                 let conditionRoute = response.data
                 this.handleBalance(conditionRoute, false)

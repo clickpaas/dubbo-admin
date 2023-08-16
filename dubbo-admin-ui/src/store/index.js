@@ -50,7 +50,7 @@ export const store = new Vuex.Store({
      * Load service items from server, put results into storage.
      */
     loadServiceItems ({commit}) {
-      Vue.prototype.$axios.get('/services')
+      Vue.prototype.$axios.get('./services')
         .then(response => {
           if (response.status === 200) {
             const serviceItems = response.data
@@ -62,7 +62,7 @@ export const store = new Vuex.Store({
      * Load application items from server, put results into storage.
      */
     loadAppItems ({commit}) {
-      Vue.prototype.$axios.get('/applications')
+      Vue.prototype.$axios.get('./applications')
         .then(response => {
           if (response.status === 200) {
             const appItems = response.data
@@ -74,7 +74,7 @@ export const store = new Vuex.Store({
      * Load application items from consumer, put results into storage.
      */
     loadConsumerItems ({commit}) {
-      Vue.prototype.$axios.get('/consumers')
+      Vue.prototype.$axios.get('./consumers')
         .then(response => {
           if (response.status === 200) {
             const consumerItems = response.data

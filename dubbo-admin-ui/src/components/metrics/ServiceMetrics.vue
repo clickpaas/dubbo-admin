@@ -338,9 +338,9 @@ export default {
       }
 
       if (rewrite) {
-        this.$router.push({ path: '/metrics/index', query: { ip: this.filter } })
+        this.$router.push({ path: './metrics/index', query: { ip: this.filter } })
       }
-      const url = '/metrics/ipAddr/?ip=' + filter + '&group=dubbo'
+      const url = './metrics/ipAddr/?ip=' + filter + '&group=dubbo'
       this.$axios.get(url)
         .then(response => {
           if (!response) {

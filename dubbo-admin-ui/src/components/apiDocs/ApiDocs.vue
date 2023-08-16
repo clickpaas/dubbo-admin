@@ -138,7 +138,7 @@ export default {
     submit () {
       const dubboProviderIP = document.querySelector('#dubboProviderIP').value.trim()
       const dubboProviderPort = document.querySelector('#dubboProviderPort').value.trim()
-      this.$axios.get('/docs/apiModuleList', {
+      this.$axios.get('./docs/apiModuleList', {
         params: {
           dubboIp: dubboProviderIP,
           dubboPort: dubboProviderPort

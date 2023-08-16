@@ -451,7 +451,7 @@
               })
           }
         } else {
-          this.$axios.post('/rules/weight', weight)
+          this.$axios.post('./rules/weight', weight)
             .then(response => {
               if (response.status === 201) {
                 if (this.service) {
@@ -473,7 +473,7 @@
         let itemId = item.id
         switch (icon) {
           case 'visibility':
-            this.$axios.get('/rules/weight/' + itemId)
+            this.$axios.get('./rules/weight/' + itemId)
                 .then(response => {
                   let weight = response.data
                   this.handleWeight(weight, true)
@@ -481,7 +481,7 @@
                 })
             break
           case 'edit':
-            this.$axios.get('/rules/weight/' + itemId)
+            this.$axios.get('./rules/weight/' + itemId)
                 .then(response => {
                   let weight = response.data
                   this.handleWeight(weight, false)

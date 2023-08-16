@@ -300,7 +300,7 @@ export default {
       this.formValues = new Map()
       this.responseData = ''
       this.$axios
-        .get('/docs/apiParamsResp', {
+        .get('./docs/apiParamsResp', {
           params: {
             dubboIp: curVal.dubboIp,
             dubboPort: curVal.dubboPort,

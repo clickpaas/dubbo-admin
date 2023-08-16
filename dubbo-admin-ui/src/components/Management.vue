@@ -233,7 +233,7 @@
                 })
             }
           } else {
-            this.$axios.post('/manage/config/', configDTO)
+            this.$axios.post('./manage/config/', configDTO)
               .then(response => {
                 if (response.status === 201) {
                   vm.search(vm.key)
@@ -264,7 +264,7 @@
           this.search()
         },
         search () {
-          this.$axios.get('/manage/config/' + this.filter)
+          this.$axios.get('./manage/config/' + this.filter)
             .then(response => {
               if (response.status === 200) {
                 this.dubboConfig = response.data

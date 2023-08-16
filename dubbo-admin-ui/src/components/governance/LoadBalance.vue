@@ -464,7 +464,7 @@
               })
           }
         } else {
-          this.$axios.post('/rules/balancing', balancing)
+          this.$axios.post('./rules/balancing', balancing)
             .then(response => {
               if (response.status === 201) {
                 if (vm.service) {
@@ -486,7 +486,7 @@
         let itemId = item.id
         switch (icon) {
           case 'visibility':
-            this.$axios.get('/rules/balancing/' + itemId)
+            this.$axios.get('./rules/balancing/' + itemId)
               .then(response => {
                 let balancing = response.data
                 this.handleBalance(balancing, true)
@@ -494,7 +494,7 @@
               })
             break
           case 'edit':
-            this.$axios.get('/rules/balancing/' + itemId)
+            this.$axios.get('./rules/balancing/' + itemId)
               .then(response => {
                 let balancing = response.data
                 this.handleBalance(balancing, false)

@@ -220,7 +220,7 @@ export default {
       }
     },
     detail: function (service) {
-      this.$axios.get('/service/' + service)
+      this.$axios.get('./service/' + service)
         .then(response => {
           this.providerDetails = response.data.providers
           for (let i = 0; i < this.providerDetails.length; i++) {

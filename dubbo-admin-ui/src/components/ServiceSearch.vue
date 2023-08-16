@@ -317,7 +317,7 @@ export default {
       const page = this.pagination.page - 1
       const size = this.pagination.rowsPerPage === -1 ? this.totalItems : this.pagination.rowsPerPage
       this.loadingServices = true
-      this.$axios.get('/service', {
+      this.$axios.get('./service', {
         params: {
           pattern,
           filter,

@@ -57,7 +57,7 @@
         // eslint-disable-next-line no-undef
         this.chartContent = echarts.init(document.getElementById('chartContent'))
         this.chartContent.showLoading()
-        this.$axios.get('/metrics/relation')
+        this.$axios.get('./metrics/relation')
           .then(response => {
             if (response && response.status === 200) {
               this.success = true

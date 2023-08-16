@@ -169,7 +169,7 @@
         if (!filter) {
           return
         }
-        this.$axios.get('/service/' + filter).then(response => {
+        this.$axios.get('./service/' + filter).then(response => {
           this.service = response.data
           this.methods = []
           if (this.service.metadata) {
@@ -208,7 +208,7 @@
         }
         const pattern = 'service'
         this.loading = true
-        this.$axios.get('/service', {
+        this.$axios.get('./service', {
           params: {
             pattern, filter
           }
