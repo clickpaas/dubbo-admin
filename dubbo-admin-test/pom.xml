@@ -45,7 +45,7 @@
     </properties>
 
     <dependencyManagement>
-        <dependencies>
+        <!--<dependencies>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-dependencies-bom</artifactId>
@@ -53,7 +53,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-        </dependencies>
+        </dependencies>-->
     </dependencyManagement>
 
     <dependencies>
@@ -62,13 +62,22 @@
             <artifactId>dubbo</artifactId>
             <version>${dubbo-version}</version>
         </dependency>
-
         <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-x-discovery</artifactId>
+            <version>5.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.39</version>
+        </dependency>
+       <!-- <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
-            <version>${dubbo-version}</version>
+            <version>3.1.9-M1-SNAPSHOT</version>
             <type>pom</type>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>

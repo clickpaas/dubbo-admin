@@ -16,9 +16,9 @@
 #
 
 # centers in dubbo2.7, if you want to add parameters, please add them to the url
-admin.registry.address=zookeeper://192.168.1.14:2181
-admin.config-center=zookeeper://192.168.1.14:2181
-admin.metadata-report.address=zookeeper://192.168.1.14:2181
+admin.registry.address=zookeeper://172.33.66.164:2181
+admin.config-center=zookeeper://172.33.66.164:2181
+admin.metadata-report.address=zookeeper://172.33.66.164:2181
 
 # nacos config, add parameters to url like username=nacos&password=nacos
 #admin.registry.address=nacos://127.0.0.1:8848?group=DEFAULT_GROUP&namespace=public
@@ -64,7 +64,7 @@ admin.check.signSecret=86295dd0c4ef69a1036b0b0c15158d77
 
 #dubbo config
 dubbo.application.name=dubbo-admin
-dubbo.registry.address=zookeeper://192.168.1.14:2181
+dubbo.registry.address=zookeeper://172.33.66.164:2181
 
 # mysql
 #spring.datasource.driver-class-name=com.mysql.jdbc.Driver

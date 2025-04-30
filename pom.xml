@@ -55,7 +55,7 @@
 	<properties>
 		<revision>1.0.2</revision>
 		<main.basedir>${project.basedir}</main.basedir>
-		<dubbo-version>3.1.9-M1-SNAPSHOT</dubbo-version>
+		<dubbo-version>3.3.1</dubbo-version>
 		<springfox-swagger-version>2.10.0</springfox-swagger-version>
 		<jacoco-version>0.8.2</jacoco-version>
 		<apollo-version>1.8.0</apollo-version>
@@ -70,7 +70,7 @@
 		<file_encoding>UTF-8</file_encoding>
 		<checkstyle.skip>true</checkstyle.skip>
 		<rat.skip>true</rat.skip>
-		<netty.version>4.1.88.Final</netty.version>
+		<netty.version>4.1.118.Final</netty.version>
 		<spring.version>5.3.27</spring.version>
 	</properties>
 
@@ -85,13 +85,13 @@
 				<type>pom</type>
 			</dependency>
 
-			<dependency>
+			<!--<dependency>
 				<groupId>org.apache.dubbo</groupId>
 				<artifactId>dubbo-dependencies-bom</artifactId>
 				<version>${dubbo-version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
+			</dependency>-->
 
 			<dependency>
 				<groupId>com.ctrip.framework.apollo</groupId>
@@ -105,11 +105,11 @@
 				<version>${dubbo-version}</version>
 			</dependency>
 
-			<dependency>
+			<!--<dependency>
 				<groupId>org.apache.dubbo</groupId>
 				<artifactId>dubbo-serialization-kryo</artifactId>
 				<version>${dubbo-version}</version>
-			</dependency>
+			</dependency>-->
 
 			<dependency>
 				<groupId>io.springfox</groupId>

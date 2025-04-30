@@ -91,7 +91,7 @@ public class ServiceTestUtil {
     }
 
     private static void generateComplexType(ServiceDefinition sd, TypeDefinition td, Map<String, Object> holder) {
-        for (Map.Entry<String, TypeDefinition> entry : td.getProperties().entrySet()) {
+        for (Map.Entry<String, String> entry : td.getProperties().entrySet()) {
             if (isPrimitiveType(td)) {
                 holder.put(entry.getKey(), generatePrimitiveType(td));
             } else {
@@ -208,13 +208,13 @@ public class ServiceTestUtil {
         return new Object[]{generateType(sd, type)};
     }
 
-    private static void generateEnclosedType(Map<String, Object> holder, String key, ServiceDefinition sd, TypeDefinition td) {
-        if (td.getProperties() == null || td.getProperties().size() == 0 || isPrimitiveType(td)) {
-            holder.put(key, generateType(sd, td));
-        } else {
-            Map<String, Object> enclosedMap = new HashMap<>();
-            holder.put(key, enclosedMap);
-            generateComplexType(sd, td, enclosedMap);
-        }
+    private static void generateEnclosedType(Map<String, Object> holder, String key, ServiceDefinition sd, String td) {
+//        if (td.getProperties() == null || td.getProperties().size() == 0 || isPrimitiveType(td)) {
+//            holder.put(key, generateType(sd, td));
+//        } else {
+//            Map<String, Object> enclosedMap = new HashMap<>();
+//            holder.put(key, enclosedMap);
+//            generateComplexType(sd, td, enclosedMap);
+//        }
     }
 }
