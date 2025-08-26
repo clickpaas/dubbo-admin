@@ -25,15 +25,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.TestPropertySourceUtils;
-import org.springframework.util.SocketUtils;
-
+//import org.springframework.util.SocketUtils;
+import org.springframework.test.util.TestSocketUtils;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = DubboAdminApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -47,7 +47,7 @@ public abstract class AbstractSpringIntegrationTest {
 
     static {
         try {
-            int zkPort = SocketUtils.findAvailableTcpPort();
+            int zkPort = TestSocketUtils.findAvailableTcpPort();
             zkServer = new TestingServer(zkPort, true);
             zkClient = CuratorFrameworkFactory.newClient(zkServer.getConnectString(), new RetryOneTime(2000));
             zkClient.start();

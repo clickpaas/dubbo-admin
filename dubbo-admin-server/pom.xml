@@ -31,7 +31,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <mockito-version>2.23.4</mockito-version>
     </properties>
 
@@ -244,7 +244,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>9.0.65</version>
+            <version>10.1.44</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
@@ -296,6 +296,26 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <version>3.4.9</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>6.0.10</version>
+            <scope>test</scope>
+        </dependency>
         <!--<dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
@@ -311,6 +331,12 @@
         <dependency><groupId>com.fasterxml.jackson.datatype</groupId><artifactId>jackson-datatype-jdk8</artifactId><version>2.15.1</version></dependency>
         <dependency><groupId>com.fasterxml.jackson.datatype</groupId><artifactId>jackson-datatype-jsr310</artifactId><version>2.15.1</version></dependency>
         <dependency><groupId>com.fasterxml.jackson.module</groupId><artifactId>jackson-module-parameter-names</artifactId><version>2.15.1</version></dependency>
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <version>3.4.5</version>
+            <scope>test</scope>
+        </dependency>-->
     </dependencies>
 
     <build>
@@ -402,7 +428,7 @@
                     <imagePullPolicy>always</imagePullPolicy>
                     <images>
                         <image>
-                            <name>registry.bizsaas.net/arch/dubbo-admin:3.3.1</name>
+                            <name>registry.bizsaas.net/arch/dubbo-admin:3.3.1-jdk17</name>
                             <build>
                                 <contextDir>${project.basedir}/docker</contextDir>
                                 <buildx>
