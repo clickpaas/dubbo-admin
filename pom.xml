@@ -71,7 +71,7 @@
 		<checkstyle.skip>true</checkstyle.skip>
 		<rat.skip>true</rat.skip>
 		<netty.version>4.1.124.Final</netty.version>
-		<spring.version>6.2.10</spring.version>
+		<spring.version>6.2.11</spring.version>
 	</properties>
 
 	<dependencyManagement>
